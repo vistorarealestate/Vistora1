@@ -1,1 +1,1037 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vistora</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0c0a08;
+    --bg-elevated: #151009;
+    --bg-card: #1b140c;
+    --line: #35281a;
+    --line-soft: #241b12;
+    --gold: #c9974f;
+    --gold-bright: #e8c078;
+    --gold-deep: #7a5a28;
+    --ink: #f3ecdf;
+    --ink-muted: #b3a68d;
+    --ink-faint: #7a6f5c;
+    --radius: 2px;
+    --wrap: 1120px;
+  }
 
+  *{box-sizing:border-box;}
+  html{background:var(--bg);}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{ background:var(--gold-deep); color:var(--ink); }
+
+  h1,h2,h3{
+    font-family:'Fraunces', Georgia, 'Times New Roman', serif;
+    font-weight:600;
+    color:var(--ink);
+    margin:0;
+    text-wrap:balance;
+    letter-spacing:-0.01em;
+  }
+
+  img{max-width:100%; display:block;}
+
+  a{color:inherit;}
+
+  .wrap{
+    max-width:var(--wrap);
+    margin:0 auto;
+    padding:0 28px;
+  }
+
+  .eyebrow{
+    font-family:'Manrope', sans-serif;
+    font-weight:700;
+    font-size:12.5px;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--gold);
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px;
+    height:1px;
+    background:var(--gold-deep);
+    display:inline-block;
+  }
+
+  section{
+    padding:104px 0;
+    position:relative;
+  }
+  section + section{
+    border-top:1px solid var(--line-soft);
+  }
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(12,10,8,0.82);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .nav-inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    height:76px;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    text-decoration:none;
+  }
+  .brand img{ height:30px; width:auto; }
+  .brand-word{
+    font-family:'Manrope', sans-serif;
+    font-weight:800;
+    font-size:16.5px;
+    letter-spacing:0.14em;
+    color:var(--ink);
+  }
+  .brand-word span{ color:var(--gold); }
+  nav.links{
+    display:flex;
+    align-items:center;
+    gap:36px;
+  }
+  nav.links a{
+    font-size:13.5px;
+    font-weight:600;
+    letter-spacing:0.04em;
+    text-decoration:none;
+    color:var(--ink-muted);
+    transition:color .2s ease;
+  }
+  nav.links a:hover{ color:var(--gold-bright); }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:12px 24px;
+    font-family:'Manrope', sans-serif;
+    font-weight:700;
+    font-size:13.5px;
+    letter-spacing:0.05em;
+    text-decoration:none;
+    border-radius:var(--radius);
+    cursor:pointer;
+    border:1px solid transparent;
+    transition:transform .18s ease, border-color .18s ease, background .18s ease, color .18s ease;
+    white-space:nowrap;
+  }
+  .btn-gold{
+    background:linear-gradient(180deg, var(--gold-bright), var(--gold));
+    color:#1a1206;
+  }
+  .btn-gold:hover{ transform:translateY(-1px); filter:brightness(1.06); }
+  .btn-ghost{
+    border-color:var(--line);
+    color:var(--ink);
+    background:transparent;
+  }
+  .btn-ghost:hover{ border-color:var(--gold); color:var(--gold-bright); }
+  .nav-cta{ display:flex; align-items:center; gap:14px; }
+  .icon-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:38px;
+    height:38px;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    color:var(--ink-muted);
+    text-decoration:none;
+    transition:border-color .18s ease, color .18s ease;
+    flex-shrink:0;
+  }
+  .icon-btn:hover{ border-color:var(--gold); color:var(--gold-bright); }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:0;
+    border-top:none;
+    position:relative;
+    overflow:hidden;
+    min-height:88vh;
+    display:flex;
+    align-items:center;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 18%, rgba(201,151,79,0.16), transparent 60%),
+      radial-gradient(ellipse 80% 60% at 50% 100%, rgba(122,90,40,0.14), transparent 65%);
+    pointer-events:none;
+  }
+  .hero::after{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:0;
+    width:1px;
+    height:100%;
+    background:linear-gradient(180deg, transparent, rgba(201,151,79,0.35), transparent);
+    transform:translateX(-50%);
+    pointer-events:none;
+  }
+  .hero-inner{
+    position:relative;
+    z-index:1;
+    width:100%;
+    text-align:center;
+    padding:170px 28px 120px;
+  }
+  .hero .eyebrow{ justify-content:center; margin-bottom:26px; }
+  .hero .eyebrow::before{ display:none; }
+  .hero .eyebrow::after{
+    content:"";
+    width:22px;
+    height:1px;
+    background:var(--gold-deep);
+    display:inline-block;
+  }
+  .hero h1{
+    font-size:clamp(38px, 6vw, 68px);
+    line-height:1.08;
+    max-width:900px;
+    margin:0 auto;
+  }
+  .hero h1 em{
+    font-style:italic;
+    color:var(--gold-bright);
+  }
+  .hero p.lead{
+    max-width:560px;
+    margin:26px auto 0;
+    color:var(--ink-muted);
+    font-size:17.5px;
+    line-height:1.7;
+  }
+  .hero-actions{
+    display:flex;
+    gap:16px;
+    justify-content:center;
+    margin-top:42px;
+    flex-wrap:wrap;
+  }
+  .hero-mark{
+    margin:0 auto 40px;
+    width:min(360px, 78vw);
+    opacity:0.96;
+  }
+
+  /* ---------- QUIENES SOMOS ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns:1.3fr 1fr;
+    gap:72px;
+    margin-top:34px;
+    align-items:start;
+  }
+  .about-grid h2{
+    font-size:clamp(26px,3.4vw,36px);
+    margin-top:16px;
+    max-width:520px;
+  }
+  .about-grid p{
+    color:var(--ink-muted);
+    font-size:16px;
+    max-width:56ch;
+  }
+  .about-grid p + p{ margin-top:18px; }
+  .stat-list{
+    display:flex;
+    flex-direction:column;
+    gap:0;
+    border-top:1px solid var(--line-soft);
+  }
+  .stat-item{
+    padding:24px 0;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .stat-item .num{
+    font-family:'Fraunces', serif;
+    font-size:26px;
+    color:var(--gold-bright);
+    margin-bottom:4px;
+  }
+  .stat-item .lab{
+    font-size:13.5px;
+    color:var(--ink-faint);
+    line-height:1.5;
+  }
+
+  /* ---------- PROCESS ---------- */
+  .process-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:2px;
+    margin-top:44px;
+    background:var(--line-soft);
+    border:1px solid var(--line-soft);
+  }
+  .process-step{
+    background:var(--bg);
+    padding:34px 30px 30px;
+  }
+  .process-step .step-no{
+    font-family:'Fraunces', serif;
+    font-size:15px;
+    color:var(--gold);
+    margin-bottom:18px;
+  }
+  .process-step h3{
+    font-size:19px;
+    margin-bottom:10px;
+    font-family:'Manrope', sans-serif;
+    font-weight:800;
+  }
+  .process-step p{
+    color:var(--ink-muted);
+    font-size:14.5px;
+    margin:0;
+  }
+
+  /* ---------- DEMOS ---------- */
+  .demo-grid{
+    display:grid;
+    grid-template-columns:1.15fr 0.85fr;
+    gap:28px;
+    margin-top:44px;
+    align-items:start;
+  }
+  .demo-card{
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+  }
+  .demo-card video{
+    display:block;
+    background:#000;
+  }
+  .demo-card video.is-landscape{
+    width:100%;
+    aspect-ratio: 600 / 400;
+    object-fit:contain;
+    margin:0 auto;
+  }
+  .demo-card video.is-portrait{
+    width:auto;
+    height:min(560px, 62vw);
+    max-width:100%;
+    aspect-ratio: 420 / 746;
+    object-fit:contain;
+  }
+  .demo-media-wrap{
+    background:#000;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+  }
+  .demo-media-wrap.is-portrait-wrap{
+    padding:22px 0;
+  }
+  .demo-body{
+    padding:22px 24px 26px;
+  }
+  .demo-tag{
+    display:inline-block;
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    padding:4px 10px;
+    border:1px solid var(--gold-deep);
+    color:var(--gold-bright);
+    border-radius:var(--radius);
+    margin-bottom:12px;
+  }
+  .demo-tag.soon{
+    color:var(--ink-faint);
+    border-color:var(--line);
+  }
+  .demo-card h3{
+    font-family:'Manrope', sans-serif;
+    font-weight:800;
+    font-size:17px;
+    margin-bottom:6px;
+  }
+  .demo-card .demo-desc{
+    color:var(--ink-muted);
+    font-size:14.5px;
+    margin:0 0 8px;
+  }
+  .demo-placeholder{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:40px 30px;
+    background:
+      repeating-linear-gradient(135deg, rgba(201,151,79,0.035) 0 2px, transparent 2px 14px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .demo-placeholder blockquote{
+    margin:18px 0 0;
+    padding-left:16px;
+    border-left:2px solid var(--gold-deep);
+    color:var(--ink);
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:16.5px;
+    line-height:1.6;
+  }
+  .demo-placeholder blockquote + blockquote{ margin-top:14px; }
+
+  /* ---------- PRICING ---------- */
+  .price-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:22px;
+    margin-top:44px;
+  }
+  .price-card{
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    padding:32px 28px 28px;
+    display:flex;
+    flex-direction:column;
+    border-radius:var(--radius);
+  }
+  .price-card.is-featured{
+    border-color:var(--gold-deep);
+    box-shadow:0 0 0 1px var(--gold-deep) inset, 0 24px 48px -30px rgba(201,151,79,0.35);
+  }
+  .price-badge{
+    display:inline-block;
+    align-self:flex-start;
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    color:#1a1206;
+    background:linear-gradient(180deg, var(--gold-bright), var(--gold));
+    padding:5px 12px;
+    border-radius:var(--radius);
+    margin-bottom:18px;
+  }
+  .price-badge-ghost{
+    color:var(--gold-bright);
+    background:transparent;
+    border:1px solid var(--gold-deep);
+  }
+  .price-name{
+    font-size:13px;
+    font-weight:800;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-muted);
+    margin-bottom:16px;
+  }
+  .price-amount{
+    font-family:'Fraunces', serif;
+    font-size:44px;
+    color:var(--ink);
+    line-height:1;
+    margin-bottom:4px;
+  }
+  .price-amount sup{
+    font-size:16px;
+    color:var(--gold-bright);
+    margin-left:4px;
+  }
+  .price-unit{
+    font-size:12.5px;
+    color:var(--ink-faint);
+    margin-bottom:22px;
+  }
+  .price-desc{
+    color:var(--ink-muted);
+    font-size:14.5px;
+    margin:0 0 20px;
+    flex-grow:0;
+  }
+  .price-feats{
+    list-style:none;
+    margin:0 0 26px;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    border-top:1px solid var(--line-soft);
+    padding-top:20px;
+  }
+  .price-feats li{
+    font-size:13.5px;
+    color:var(--ink-muted);
+    display:flex;
+    gap:10px;
+  }
+  .price-feats li::before{
+    content:"—";
+    color:var(--gold);
+    flex-shrink:0;
+  }
+  .price-4k{
+    font-size:12.5px;
+    color:var(--ink-faint);
+    margin-top:auto;
+    padding-top:16px;
+  }
+  .price-4k b{ color:var(--gold-bright); font-weight:700; }
+
+  .bundle-head{
+    margin-top:96px;
+  }
+  .bundle-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:22px;
+    margin-top:44px;
+  }
+  .bundle-card{
+    background:var(--bg-elevated);
+    border:1px solid var(--line-soft);
+    padding:28px 26px;
+    border-radius:var(--radius);
+  }
+  .bundle-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:14px;
+  }
+  .bundle-name{
+    font-size:13px;
+    font-weight:800;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--ink);
+  }
+  .bundle-save{
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:0.03em;
+    color:#1a1206;
+    background:var(--gold-bright);
+    padding:3px 8px;
+    border-radius:var(--radius);
+    white-space:nowrap;
+  }
+  .bundle-price{
+    font-family:'Fraunces', serif;
+    font-size:30px;
+    color:var(--ink);
+  }
+  .bundle-sub{
+    font-size:12.5px;
+    color:var(--ink-faint);
+    margin-top:2px;
+    margin-bottom:16px;
+  }
+  .bundle-compare{
+    font-size:12.5px;
+    color:var(--ink-muted);
+    border-top:1px solid var(--line-soft);
+    padding-top:14px;
+  }
+  .bundle-compare s{ color:var(--ink-faint); }
+
+  /* ---------- CONTACT / FOOTER ---------- */
+  .contact-section{
+    text-align:center;
+    padding-top:110px;
+    padding-bottom:70px;
+  }
+  .contact-section h2{
+    font-size:clamp(28px,3.6vw,40px);
+    max-width:640px;
+    margin:0 auto;
+  }
+  .contact-section p{
+    color:var(--ink-muted);
+    max-width:480px;
+    margin:18px auto 0;
+    font-size:16px;
+  }
+  .contact-actions{
+    margin-top:36px;
+    display:flex;
+    gap:16px;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+  .contact-form{
+    margin:40px auto 0;
+    max-width:520px;
+    text-align:left;
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:32px;
+  }
+  .contact-form-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+  }
+  .contact-field{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .contact-field label{
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+  }
+  .contact-field input,
+  .contact-field textarea{
+    font-family:'Manrope',sans-serif;
+    font-size:14.5px;
+    color:var(--ink);
+    background:var(--bg-elevated);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:11px 14px;
+    resize:vertical;
+    transition:border-color .18s ease;
+  }
+  .contact-field input:focus,
+  .contact-field textarea:focus{
+    outline:none;
+    border-color:var(--gold);
+  }
+  .contact-form .btn{ align-self:flex-start; }
+  .contact-form-note{
+    font-size:12px;
+    color:var(--ink-faint);
+    margin:0;
+  }
+
+  .contact-cards{
+    margin-top:40px;
+    display:flex;
+    gap:16px;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+  .contact-card{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    text-align:left;
+    text-decoration:none;
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:16px 22px;
+    transition:border-color .18s ease, transform .18s ease;
+  }
+  .contact-card:hover{
+    border-color:var(--gold-deep);
+    transform:translateY(-1px);
+  }
+  .contact-card-icon{
+    color:var(--gold);
+    flex-shrink:0;
+  }
+  .contact-card-text{
+    display:flex;
+    flex-direction:column;
+    gap:3px;
+  }
+  .contact-card-label{
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+  }
+  .contact-card-value{
+    font-size:14.5px;
+    color:var(--ink);
+    font-weight:600;
+  }
+
+  footer{
+    border-top:1px solid var(--line-soft);
+    padding:40px 0;
+  }
+  .footer-inner{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:16px;
+  }
+  .footer-brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .footer-brand img{ height:20px; }
+  .footer-brand span{
+    font-size:12px;
+    letter-spacing:0.1em;
+    color:var(--ink-faint);
+    font-weight:700;
+  }
+  .footer-meta{
+    font-size:12.5px;
+    color:var(--ink-faint);
+    display:flex;
+    gap:22px;
+    flex-wrap:wrap;
+  }
+  .footer-meta a{
+    text-decoration:none;
+    color:var(--ink-faint);
+    transition:color .18s ease;
+  }
+  .footer-meta a:hover{ color:var(--gold-bright); }
+
+  @media (max-width: 900px){
+    .about-grid{ grid-template-columns:1fr; gap:40px; }
+    .process-grid{ grid-template-columns:1fr; }
+    .demo-grid{ grid-template-columns:1fr; }
+    .price-grid{ grid-template-columns:1fr; }
+    .bundle-grid{ grid-template-columns:1fr; }
+    nav.links{ display:none; }
+    section{ padding:72px 0; }
+    .demo-card video.is-landscape{ max-height:360px; }
+    .demo-card video.is-portrait{ height:min(480px, 78vw); }
+    .contact-form-row{ grid-template-columns:1fr; }
+    .contact-form{ padding:26px 22px; }
+  }
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top">
+      <img src="mark_only.webp" alt="Vistora" />
+      <span class="brand-word">VISTOR<span>A</span></span>
+    </a>
+    <nav class="links">
+      <a href="#quienes-somos">Quiénes somos</a>
+      <a href="#demos">Proyectos</a>
+      <a href="#planes">Planes</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="icon-btn" href="https://www.instagram.com/vistora_vision/" target="_top" aria-label="Instagram de Vistora">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a class="btn btn-gold" href="#planes">Ver planes</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="hero-inner">
+      <img class="hero-mark" src="logo_final.webp" alt="Vistora — Real Estate Visuals" />
+      <p class="eyebrow">Vídeo inmobiliario cinematográfico en 3D</p>
+      <h1>La casa habla antes de que&nbsp;el&nbsp;cliente <em>cruce la puerta</em>.</h1>
+      <p class="lead">Convertimos las fotos de cualquier propiedad en un recorrido cinematográfico en 3D, listo para Instagram y TikTok, sin cámaras ni jornadas de rodaje.</p>
+      <div class="hero-actions">
+        <a class="btn btn-gold" href="#planes">Ver planes y precios</a>
+        <a class="btn btn-ghost" href="#demos">Ver un proyecto real</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="quienes-somos">
+    <div class="wrap">
+      <p class="eyebrow">Quiénes somos</p>
+      <div class="about-grid">
+        <div>
+          <h2>Producción de vídeo, sin cámaras ni jornadas de rodaje.</h2>
+          <p>Vistora nace en Tenerife de una idea sencilla: la mayoría de anuncios inmobiliarios compiten por fotos fijas, cuando podrían competir por una experiencia. Transformamos las fotografías de una vivienda en un recorrido cinematográfico en 3D.</p>
+          <p>Cada encargo se monta, edita y musicaliza a mano, escena a escena, para que el resultado se sienta como una producción real. El primer proyecto piloto — una villa moderna en el sur de Tenerife — se construyó a partir de 23 escenas montadas en un único vídeo.</p>
+        </div>
+        <div class="stat-list">
+          <div class="stat-item">
+            <div class="num">23 escenas</div>
+            <div class="lab">Creadas y editadas en el proyecto piloto, escena a escena.</div>
+          </div>
+          <div class="stat-item">
+            <div class="num">Horas, no semanas</div>
+            <div class="lab">Cada vídeo se produce sin rodaje, drones ni desplazamientos.</div>
+          </div>
+          <div class="stat-item">
+            <div class="num">Vertical y horizontal</div>
+            <div class="lab">Formatos listos para Instagram, TikTok y anuncios de la vivienda.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="process-grid">
+        <div class="process-step">
+          <div class="step-no">01</div>
+          <h3>Nos envías las fotos</h3>
+          <p>De la vivienda o el proyecto, tal y como están hoy — sin sesión fotográfica adicional.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-no">02</div>
+          <h3>Creamos el recorrido en 3D</h3>
+          <p>Creamos las escenas en 3D y las montamos en un único vídeo con música, o con guion y voz en off según el plan.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-no">03</div>
+          <h3>Recibes el vídeo listo</h3>
+          <p>En formato vertical y horizontal, preparado para publicar en redes o en el anuncio de la vivienda.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="demos">
+    <div class="wrap">
+      <p class="eyebrow">Proyectos</p>
+      <h2 style="font-size:clamp(26px,3.4vw,36px); margin-top:16px; max-width:640px;">Un proyecto real, no una maqueta.</h2>
+      <p style="color:var(--ink-muted); max-width:62ch; margin-top:18px; font-size:16px;">Los dos vídeos de abajo son la misma villa, en el sur de Tenerife: 23 escenas montadas a mano en dos formatos distintos — el mismo proceso que se aplica a cada plan.</p>
+
+      <div class="demo-grid">
+        <div class="demo-card">
+          <div class="demo-media-wrap">
+            <video class="is-landscape" controls preload="metadata" playsinline src="demo_basico_hi.mp4"></video>
+          </div>
+          <div class="demo-body">
+            <span class="demo-tag">Proyecto piloto</span>
+            <h3>Villa Tenerife — recorrido horizontal</h3>
+            <p class="demo-desc">Recorrido completo con música, del estilo incluido en el plan Profesional.</p>
+          </div>
+        </div>
+
+        <div class="demo-card">
+          <div class="demo-media-wrap is-portrait-wrap">
+            <video class="is-portrait" controls preload="metadata" playsinline src="demo_premium_hi.mp4"></video>
+          </div>
+          <div class="demo-body">
+            <span class="demo-tag">Plan Premium</span>
+            <h3>Villa Tenerife — guion y voz en off</h3>
+            <p class="demo-desc">Mismo recorrido, en vertical, con guion propio y voz en off profesional. Formato listo para Reels y TikTok.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="planes">
+    <div class="wrap">
+      <p class="eyebrow">Planes</p>
+      <h2 style="font-size:clamp(26px,3.4vw,36px); margin-top:16px;">Un plan para cada propiedad.</h2>
+      <p style="color:var(--ink-muted); margin-top:14px; font-size:16px;">Precio por vídeo. El acabado en 4K se puede añadir a cualquier plan.</p>
+
+      <div class="price-grid">
+        <div class="price-card">
+          <div class="price-name">Básico</div>
+          <div class="price-amount">129<sup>€</sup></div>
+          <div class="price-unit">por vídeo</div>
+          <p class="price-desc">Recorrido 3D en formato solo horizontal, sin música. Ideal para el anuncio de la vivienda.</p>
+          <ul class="price-feats">
+            <li>Vídeo de 10 a 25 segundos</li>
+            <li>Formato solo horizontal</li>
+            <li>Sin música ni voz en off</li>
+          </ul>
+          <div class="price-4k">4K disponible: <b>+49€</b></div>
+        </div>
+
+        <div class="price-card is-featured">
+          <div class="price-badge">Más vendido</div>
+          <div class="price-name">Profesional</div>
+          <div class="price-amount">249<sup>€</sup></div>
+          <div class="price-unit">por vídeo</div>
+          <p class="price-desc">Recorrido 3D pensado para redes sociales, con música y transiciones.</p>
+          <ul class="price-feats">
+            <li>Clips de 10 a 45 segundos</li>
+            <li>Formato vertical</li>
+            <li>Formato horizontal</li>
+            <li>Con música</li>
+            <li>Con transiciones</li>
+            <li>Textos incluidos</li>
+          </ul>
+          <div class="price-4k">4K disponible: <b>+49€</b></div>
+        </div>
+
+        <div class="price-card">
+          <div class="price-badge price-badge-ghost">Ideal para redes sociales</div>
+          <div class="price-name">Premium</div>
+          <div class="price-amount">449<sup>€</sup></div>
+          <div class="price-unit">por vídeo</div>
+          <p class="price-desc">Todo lo del plan Profesional, más guion a medida y voz en off profesional. Pensado para máximo alcance.</p>
+          <ul class="price-feats">
+            <li>Clips de 10 a 45 segundos</li>
+            <li>Formato vertical</li>
+            <li>Formato horizontal</li>
+            <li>Con música</li>
+            <li>Con transiciones</li>
+            <li>Textos incluidos</li>
+            <li>Guion a medida</li>
+            <li>Voz en off profesional</li>
+          </ul>
+          <div class="price-4k">4K disponible: <b>+49€</b></div>
+        </div>
+      </div>
+
+      <div class="bundle-head">
+        <p class="eyebrow">Para inmobiliarias</p>
+        <h2 style="font-size:clamp(24px,3.2vw,32px); margin-top:16px;">Packs de 5 vídeos, con ahorro.</h2>
+        <p style="color:var(--ink-muted); margin-top:14px; font-size:16px; max-width:60ch;">Para agencias que quieren presentar varias propiedades a la vez. Mismo contenido que los planes individuales, en pack de 5.</p>
+      </div>
+
+      <div class="bundle-grid">
+        <div class="bundle-card">
+          <div class="bundle-top">
+            <div class="bundle-name">Inmobiliaria Básico</div>
+            <div class="bundle-save">Ahorra 14,9%</div>
+          </div>
+          <div class="bundle-price">549€</div>
+          <div class="bundle-sub">5 vídeos · 109,80€ / vídeo</div>
+          <div class="bundle-compare">Comprados por separado: <s>645€</s></div>
+        </div>
+        <div class="bundle-card">
+          <div class="bundle-top">
+            <div class="bundle-name">Inmobiliaria Profesional</div>
+            <div class="bundle-save">Ahorra 25,4%</div>
+          </div>
+          <div class="bundle-price">929€</div>
+          <div class="bundle-sub">5 vídeos · 185,80€ / vídeo</div>
+          <div class="bundle-compare">Comprados por separado: <s>1.245€</s></div>
+        </div>
+        <div class="bundle-card">
+          <div class="bundle-top">
+            <div class="bundle-name">Inmobiliaria Premium</div>
+            <div class="bundle-save">Ahorra 18,5%</div>
+          </div>
+          <div class="bundle-price">1.829€</div>
+          <div class="bundle-sub">5 vídeos · 365,80€ / vídeo</div>
+          <div class="bundle-compare">Comprados por separado: <s>2.245€</s></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto" class="contact-section">
+    <div class="wrap">
+      <p class="eyebrow" style="justify-content:center;">Contacto</p>
+      <h2 style="margin-top:18px;">¿Hablamos de tu propiedad?</h2>
+      <p>Cuéntanos qué vivienda o proyecto quieres presentar y te preparamos una propuesta a medida.</p>
+
+      <form class="contact-form" onsubmit="return vistoraSendMail(event)">
+        <div class="contact-form-row">
+          <div class="contact-field">
+            <label for="vc-name">Nombre</label>
+            <input id="vc-name" name="name" type="text" required />
+          </div>
+          <div class="contact-field">
+            <label for="vc-email">Tu email</label>
+            <input id="vc-email" name="email" type="email" required />
+          </div>
+        </div>
+        <div class="contact-field">
+          <label for="vc-msg">Cuéntanos tu propiedad o proyecto</label>
+          <textarea id="vc-msg" name="message" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-gold">Enviar mensaje</button>
+        <p class="contact-form-note">Se abrirá tu app de correo con el mensaje ya escrito, listo para enviar a vistora.realestate@gmail.com.</p>
+      </form>
+
+      <div class="contact-actions">
+        <a class="btn btn-ghost" href="#planes">Ver planes</a>
+      </div>
+      <div class="contact-cards">
+        <a class="contact-card" href="mailto:vistora.realestate@gmail.com">
+          <svg class="contact-card-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+          <span class="contact-card-text">
+            <span class="contact-card-label">Email</span>
+            <span class="contact-card-value">vistora.realestate@gmail.com</span>
+          </span>
+        </a>
+        <a class="contact-card" href="https://www.instagram.com/vistora_vision/" target="_top">
+          <svg class="contact-card-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>
+          <span class="contact-card-text">
+            <span class="contact-card-label">Instagram</span>
+            <span class="contact-card-value">@vistora_vision</span>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <img src="mark_only.webp" alt="" />
+      <span>VISTORA — REAL ESTATE VISUALS</span>
+    </div>
+    <div class="footer-meta">
+      <span>Tenerife, España</span>
+      <a href="https://www.instagram.com/vistora_vision/" target="_top">@vistora_vision</a>
+      <span>© 2026 Vistora</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function vistoraSendMail(event) {
+    event.preventDefault();
+    var form = event.target;
+    var name = form.name.value.trim();
+    var email = form.email.value.trim();
+    var message = form.message.value.trim();
+    var subject = 'Consulta desde la web — ' + (name || 'nueva consulta');
+    var bodyLines = ['Nombre: ' + name, 'Email: ' + email, '', message];
+    var body = bodyLines.join('\n');
+    var mailto = 'mailto:vistora.realestate@gmail.com'
+      + '?subject=' + encodeURIComponent(subject)
+      + '&body=' + encodeURIComponent(body);
+    var link = document.createElement('a');
+    link.href = mailto;
+    link.target = '_top';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    return false;
+  }
+</script>
+</body>
+</html>
